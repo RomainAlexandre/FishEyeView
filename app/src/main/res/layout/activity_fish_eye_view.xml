@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mergelayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <fr.unice.reneviergonin.fisheye01.images.DeformablePolygons xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/deformed"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/layout_bottom" />
+
+    <!-- xmlns:android="http://schemas.android.com/apk/res/android"  -->
+    <!-- 				xmlns:android="http://schemas.android.com/apk/res/android"
+     -->
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Z ="
+                android:textSize="20sp" />
+
+            <SeekBar
+                android:id="@+id/seekZ"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:progress="20"
+                android:secondaryProgress="20"
+                android:max="500" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="O ="
+                android:textSize="20sp" />
+
+            <SeekBar
+                android:id="@+id/seekO"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:progress="20"
+                android:secondaryProgress="20"
+                android:max="500" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="R ="
+                android:textSize="20sp" />
+
+            <SeekBar
+                android:id="@+id/seekR"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:progress="20"
+                android:secondaryProgress="20" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_weight="50"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/button_voice"
+                android:onClick="startVoiceRecognition" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_weight="50"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/button_accelerometer"
+                android:onClick="startAccelerometer" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
