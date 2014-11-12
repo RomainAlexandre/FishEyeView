@@ -1,13 +1,11 @@
 package fr.unice.reneviergonin.fisheye01.images;
 
 
-
 //import java.awt.event.*;
 //import java.awt.image.BufferedImage;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.Observable;
@@ -47,7 +45,7 @@ public abstract class DeformableView extends View implements Observer {
     /**
      * @return the partiallyDeformed
      */
-    public boolean isPartiallyDeformed() {
+    public boolean isPartiallyDeformed () {
         return partiallyDeformed;
     }
 
@@ -55,15 +53,13 @@ public abstract class DeformableView extends View implements Observer {
     /**
      * @param partiallyDeformed the partiallyDeformed to set
      */
-    public void setPartiallyDeformed(boolean partiallyDeformed) {
+    public void setPartiallyDeformed (boolean partiallyDeformed) {
         this.partiallyDeformed = partiallyDeformed;
         processDeform();
     }
 
 
-
-
-    public DeformableView(Context context, AttributeSet attrs) {
+    public DeformableView (Context context, AttributeSet attrs) {
         super(context, attrs);
 
         c = context;
@@ -95,16 +91,16 @@ public abstract class DeformableView extends View implements Observer {
     }
     */
 
-    public AbstractFormula getDeformation() {
+    public AbstractFormula getDeformation () {
         return mydeform;
     }
 
-    public boolean isDeformed() {
+    public boolean isDeformed () {
         return (mydeform != null);
     }
 
 
-    public void setDeformation(AbstractFormula af) {
+    public void setDeformation (AbstractFormula af) {
 
         if (mydeform != null) mydeform.deleteObserver(this);
         mydeform = af;
@@ -115,13 +111,13 @@ public abstract class DeformableView extends View implements Observer {
     }
 
 
-    public void update(Observable arg0, Object arg1) {
+    public void update (Observable arg0, Object arg1) {
         processDeform();
         invalidate();
     }
 
 
-    protected void processDeform() {
+    protected void processDeform () {
 
         if (mydeform == null) return;
 
@@ -139,16 +135,16 @@ public abstract class DeformableView extends View implements Observer {
         calculateNewImage();
     }
 
-    protected abstract void calculateNewImage();
+    protected abstract void calculateNewImage ();
 
 
-    public String toString() {
+    public String toString () {
         return getClass().getCanonicalName();
     }
 
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
         /*
         // pour forcer la dimension de la view
         setMeasuredDimension(mySize[0], mySize[1]);
@@ -174,26 +170,33 @@ public abstract class DeformableView extends View implements Observer {
         maxdistance = (int) Math.sqrt(width * width + height * height);
         newx = new int[maxdistance];
 
-        initialyze();
+        initialize();
         invalidate();
     }
 
+    protected abstract void initialize ();
+    protected abstract void update();
 
-    protected abstract void initialyze();
-
-    public void setCenter(int centerX, int centerY){
+    public void setCenter (int centerX, int centerY) {
         this.centreX = centerX;
         this.centreY = centerY;
 
-        initialyze();
+        update();
         invalidate();
     }
 
-    public int getCentreX() {
+    public void resetCenter () {
+        setCenter((int) (originalSize[0] / (scaleX * 2)),
+                (int) (originalSize[1] / (int) (scaleY * 2)));
+        initialize();
+        invalidate();
+    }
+
+    public int getCentreX () {
         return centreX;
     }
 
-    public int getCentreY() {
+    public int getCentreY () {
         return centreY;
     }
 }

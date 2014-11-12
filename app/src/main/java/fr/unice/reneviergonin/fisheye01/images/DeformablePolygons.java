@@ -7,11 +7,12 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class DeformablePolygons extends DeformableView {
 
     // nombre de polygones par ligne / colonne
-    int nb = 10;
+    int nb = 15;
 
     ArrayList<MyPolygon> elements;
     ArrayList<MyPolygon> deformedElements;
@@ -34,6 +35,10 @@ public class DeformablePolygons extends DeformableView {
         int sixieme = nb / 6;
         int deuxtiers = 2 * nb / 3;
         int troisquarts = 3 * nb / 4;
+        int lol1 = new Random().nextInt(deuxtiers) + tiers;
+        int lol2 = new Random().nextInt(troisquarts) + sixieme;
+        int lol3 = new Random().nextInt(troisquarts) + tiers;
+        int lol4 = new Random().nextInt(deuxtiers) + sixieme;
 
         float pasW = w * 7 / 24; // entre 1/4 et 1/3...
         float pasH = h * 7 / 24;
@@ -60,10 +65,9 @@ public class DeformablePolygons extends DeformableView {
 				*/
 
                 // ajout des points constituants les polygones
-                if ((i == tiers) && (j == sixieme)) {
+                if (i == lol1 && j == lol3) {
                     p.addPoint(dx, dy + pasH);
                     p.addPoint(dx + pasW, dy);
-
                 } else {
                     p.addPoint(dx, dy);
                 }
@@ -72,10 +76,9 @@ public class DeformablePolygons extends DeformableView {
                 p.addPoint(dx + w, dy);
                 p.addPoint(dx + w - delta2, dy + h / 2);
 
-                if ((i == troisquarts) && (j == deuxtiers)) {
+                if (i == lol2 && j == lol4) {
                     p.addPoint(dx + w, dy - pasH + h);
                     p.addPoint(dx - pasW + w, dy + h);
-
                 } else {
                     p.addPoint(dx + w, dy + h);
                 }
@@ -166,8 +169,13 @@ public class DeformablePolygons extends DeformableView {
     }
 
     @Override
-    protected void initialyze () {
+    protected void initialize () {
         derivePolygons();
+        processDeform();
+    }
+
+    @Override
+    protected void update () {
         processDeform();
     }
 

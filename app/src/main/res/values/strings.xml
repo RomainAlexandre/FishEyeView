@@ -4,7 +4,8 @@
     <string name="app_name">FishEye</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="button_voice">Voice</string>
-    <string name="button_accelerometer">Accelerometer</string>
+    <string name="button_touch">Toucher</string>
+    <string name="button_accelerometer">Acceléromètre</string>
+    <string name="decalage">Décalage</string>
 
 </resources>

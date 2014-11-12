@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <fr.unice.reneviergonin.fisheye01.images.DeformablePolygons xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/deformed"
 
@@ -24,97 +23,62 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="@android:color/white">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:id="@+id/layout_decalage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            android:orientation="horizontal"
+            android:layout_margin="20dp"
+            android:weightSum="3"
+            android:visibility="visible">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Z ="
-                android:textSize="20sp" />
-
-            <SeekBar
-                android:id="@+id/seekZ"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:progress="20"
-                android:secondaryProgress="20"
-                android:max="500" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
+                android:text="@string/decalage"
+                android:layout_weight="1"
+                android:textSize="25sp"
+                android:gravity="right"
+                android:textColor="@color/grey_darkest"/>
+            <Switch
+                android:id="@+id/switch_offset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="O ="
-                android:textSize="20sp" />
-
-            <SeekBar
-                android:id="@+id/seekO"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:progress="20"
-                android:secondaryProgress="20"
-                android:max="500" />
-
+                android:layout_weight="1"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="R ="
-                android:textSize="20sp" />
-
-            <SeekBar
-                android:id="@+id/seekR"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:progress="20"
-                android:secondaryProgress="20" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/button_touch"
                 android:layout_weight="50"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
-                android:text="@string/button_voice"
-                android:onClick="startVoiceRecognition" />
-
+                android:text="@string/button_touch"
+                android:onClick="startTouch"
+                android:background="@drawable/selector_button_red"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"/>
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/button_accel"
                 android:layout_weight="50"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
                 android:text="@string/button_accelerometer"
-                android:onClick="startAccelerometer" />
+                android:onClick="startAccelerometer"
+                android:background="@drawable/selector_button_dark"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"/>
         </LinearLayout>
     </LinearLayout>
 
