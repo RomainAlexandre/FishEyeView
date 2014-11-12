@@ -119,12 +119,26 @@ public class FishEyeView extends Activity implements AccelerometerManager.Accele
     public void onMove (float x, float y) {
         int previousCentreX = this.view.getCentreX();
         int previousCentreY = this.view.getCentreY();
-        this.view.setCenter(previousCentreX + (int) x, previousCentreY + (int) y);
+
+        if(x!=0) {
+            x *= 2;
+        }
+        if(y!=0) {
+            y *= 2;
+        }
+
+        x = Math.max(previousCentreX + x, (int)topHeight);
+        y = Math.max(previousCentreY + y, 0);
+
+        this.view.setCenter((int)x, (int)y);
     }
 
     public void startAccelerometer (View view) {
-        if (accelManager.isListening())
+        if (accelManager.isListening()) {
+            accelManager.resetSensorData();
+            this.view.resetCenter();
             return;
+        }
         if (!accelManager.isSupported()) {
             accelButton.setVisibility(View.GONE);
             Toast.makeText(this, "Pas d'accéléromètre sur cet appareil", Toast.LENGTH_SHORT).show();

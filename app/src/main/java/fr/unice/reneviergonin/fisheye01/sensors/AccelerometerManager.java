@@ -12,7 +12,7 @@ import android.util.Log;
 public class AccelerometerManager extends MovementManager {
 
 	/** Accuracy configuration */
-	private static float threshold = 12.0f;
+	private static float threshold = 0.2f;
 	private static int interval = 200;
 
 	public AccelerometerManager(Context c) {
@@ -28,6 +28,10 @@ public class AccelerometerManager extends MovementManager {
 		super.startListening(sensorListener);
 		((CustomSensorEventListener) sensorEventListener).resetData();
 	}
+
+    public void resetSensorData(){
+        ((CustomSensorEventListener) sensorEventListener).resetData();
+    }
 
 	@Override
 	protected SensorEventListener defineSensorEventListener() {
@@ -53,8 +57,8 @@ public class AccelerometerManager extends MovementManager {
 			// depend on the AccelerometerListener processing time
 			now = event.timestamp;
 
-			x = event.values[0];
-			y = event.values[1];
+			y = event.values[0];
+            x = event.values[1];
 
 			if (lastUpdate == 0) {
 				lastUpdate = now;
@@ -65,10 +69,9 @@ public class AccelerometerManager extends MovementManager {
 				float timeDiff = now - lastUpdate;
 				if (timeDiff > 0) {
 					force = Math.abs(x + y - lastX - lastY);
-					lastX = x;
-					lastY = y;
-                    if(force>threshold)
-                        ((AccelerometerListener)listener).onMove(lastX-x,lastY-y);
+                    if(force>threshold && listener!=null) {
+                        ((AccelerometerListener) listener).onMove(lastX - x, lastY - y);
+                    }
 					lastUpdate = now;
 				} else {
 					Log.d("FISHEYE", "No Motion detected");

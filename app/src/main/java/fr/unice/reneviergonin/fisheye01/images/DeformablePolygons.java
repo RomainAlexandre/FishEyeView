@@ -12,7 +12,7 @@ import java.util.Random;
 public class DeformablePolygons extends DeformableView {
 
     // nombre de polygones par ligne / colonne
-    int nb = 15;
+    int nb = 20;
 
     ArrayList<MyPolygon> elements;
     ArrayList<MyPolygon> deformedElements;
