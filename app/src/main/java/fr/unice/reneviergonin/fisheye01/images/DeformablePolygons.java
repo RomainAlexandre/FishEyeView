@@ -24,24 +24,36 @@ public class DeformablePolygons extends DeformableView {
         // setDimensions(initialSize[0], initialSize[1]);
     }
 
-    protected void derivePolygons () {
+    protected void derivePolygons (int id) {
         elements = new ArrayList<MyPolygon>();
 
         // dimension dans laquelle s'inscrit un polygone
         float w = (originalSize[0] - marges * 2) / (nb * 2);
         float h = (originalSize[1] - marges * 2) / (nb * 2);
 
+        int lol1,lol2,lol3,lol4;
         int tiers = nb / 3;
         int sixieme = nb / 6;
         int deuxtiers = 2 * nb / 3;
         int troisquarts = 3 * nb / 4;
-        int lol1 = new Random().nextInt(deuxtiers) + tiers;
-        int lol2 = new Random().nextInt(troisquarts) + sixieme;
-        int lol3 = new Random().nextInt(troisquarts) + tiers;
-        int lol4 = new Random().nextInt(deuxtiers) + sixieme;
-
-        float pasW = w * 7 / 24; // entre 1/4 et 1/3...
-        float pasH = h * 7 / 24;
+        if(id==0) {
+            lol1 = 3;
+            lol2 = 13;
+            lol3 = 10;
+            lol4 = 5;
+        }else if(id==1) {
+            lol1 = 9;
+            lol2 = 3;
+            lol3 = 12;
+            lol4 = 14;
+        }else {
+            lol1 = 5;
+            lol2 = 9;
+            lol3 = 12;
+            lol4 = 3;
+        }
+        float pasW = w * 1/5;//7 / 24; // entre 1/4 et 1/3...
+        float pasH = h * 1/5;//7 / 24;
 
         // création de tous les polygones
         for (int i = 0; i < nb; i++) {
@@ -65,7 +77,7 @@ public class DeformablePolygons extends DeformableView {
 				*/
 
                 // ajout des points constituants les polygones
-                if (i == lol1 && j == lol3) {
+                if (i == lol1 && j == lol2) {
                     p.addPoint(dx, dy + pasH);
                     p.addPoint(dx + pasW, dy);
                 } else {
@@ -76,7 +88,7 @@ public class DeformablePolygons extends DeformableView {
                 p.addPoint(dx + w, dy);
                 p.addPoint(dx + w - delta2, dy + h / 2);
 
-                if (i == lol2 && j == lol4) {
+                if (i == lol3 && j == lol4) {
                     p.addPoint(dx + w, dy - pasH + h);
                     p.addPoint(dx - pasW + w, dy + h);
                 } else {
@@ -169,8 +181,8 @@ public class DeformablePolygons extends DeformableView {
     }
 
     @Override
-    protected void initialize () {
-        derivePolygons();
+    protected void initialize(int i) {
+        derivePolygons(i);
         processDeform();
     }
 

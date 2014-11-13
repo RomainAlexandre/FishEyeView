@@ -170,11 +170,11 @@ public abstract class DeformableView extends View implements Observer {
         maxdistance = (int) Math.sqrt(width * width + height * height);
         newx = new int[maxdistance];
 
-        initialize();
+        initialize(1);
         invalidate();
     }
 
-    protected abstract void initialize ();
+    protected abstract void initialize(int i);
     protected abstract void update();
 
     public void setCenter (int centerX, int centerY) {
@@ -185,10 +185,10 @@ public abstract class DeformableView extends View implements Observer {
         invalidate();
     }
 
-    public void resetCenter () {
+    public void resetCenter(int i) {
         setCenter((int) (originalSize[0] / (scaleX * 2)),
                 (int) (originalSize[1] / (int) (scaleY * 2)));
-        initialize();
+        initialize(i);
         invalidate();
     }
 

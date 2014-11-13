@@ -57,8 +57,8 @@ public class AccelerometerManager extends MovementManager {
 			// depend on the AccelerometerListener processing time
 			now = event.timestamp;
 
-			y = event.values[0];
-            x = event.values[1];
+			x = event.values[0];
+            y = event.values[1];
 
 			if (lastUpdate == 0) {
 				lastUpdate = now;

@@ -1,7 +1,7 @@
 package fr.unice.reneviergonin.fisheye01;
 
-import android.app.ActionBar;
 import android.app.Activity;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -37,7 +37,7 @@ public class FishEyeView extends Activity implements AccelerometerManager.Accele
     private double topHeight;
 
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fish_eye_view);
 
@@ -55,19 +55,18 @@ public class FishEyeView extends Activity implements AccelerometerManager.Accele
         offsetSwitch = (Switch) findViewById(R.id.switch_offset);
         offsetSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged (CompoundButton compoundButton, boolean b) {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 Log.i("FISHEYE", "switch changed " + b);
                 touchOffset = b;
-                view.resetCenter();
+                view.resetCenter(touchOffset?2:1);
             }
         });
 
-        formulas[0].setParams(100., 300., 200.);
+        formulas[0].setParams(80., 300., 220.);
 
-        ActionBar actionBar = getActionBar();
-        Integer actionBarHeight = actionBar.getHeight();
+        int actionBarHeight = getActionBarHeight();
         int statusBarHeight = getStatusBarHeight();
-        topHeight = (actionBarHeight!=null)?actionBarHeight:0 + statusBarHeight;
+        topHeight = statusBarHeight + actionBarHeight;
 
         // Accelerometre
         accelManager = new AccelerometerManager(this);
@@ -78,37 +77,38 @@ public class FishEyeView extends Activity implements AccelerometerManager.Accele
         }
     }
 
-    protected void onResume () {
+    protected void onResume() {
         super.onResume();
         if (accelManager.isSupported())
             accelManager.resumeListening();
     }
 
-    protected void onPause () {
+    protected void onPause() {
         super.onPause();
         accelManager.pauseListening();
     }
 
     @Override
-    protected void onStop () {
+    protected void onStop() {
         super.onStop();
         accelManager.stopListening();
     }
 
     @Override
-    public boolean onTouchEvent (MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         if (accelManager.isListening())
             return super.onTouchEvent(event);
 
         int x = (int) event.getRawX();
-        int y = (int) event.getRawY() - (int)topHeight;
+        int y = (int) event.getRawY() - (int) topHeight;
 
         if (touchOffset) {
             Log.i("FISHEYE", "offset");
-            x -= offset; y -= offset;
+            x -= offset;
+            y -= offset;
         }
 
-        x = Math.max(x, (int)topHeight);
+        x = Math.max(x, (int) topHeight);
         y = Math.max(y, 0);
         this.view.setCenter(x, y);
 
@@ -116,27 +116,27 @@ public class FishEyeView extends Activity implements AccelerometerManager.Accele
     }
 
     @Override
-    public void onMove (float x, float y) {
+    public void onMove(float x, float y) {
         int previousCentreX = this.view.getCentreX();
         int previousCentreY = this.view.getCentreY();
 
-        if(x!=0) {
+        if (x != 0) {
             x *= 2;
         }
-        if(y!=0) {
+        if (y != 0) {
             y *= 2;
         }
 
-        x = Math.max(previousCentreX + x, (int)topHeight);
+        x = Math.max(previousCentreX - x, (int) topHeight);
         y = Math.max(previousCentreY + y, 0);
 
-        this.view.setCenter((int)x, (int)y);
+        this.view.setCenter((int) x, (int) y);
     }
 
-    public void startAccelerometer (View view) {
+    public void startAccelerometer(View view) {
         if (accelManager.isListening()) {
             accelManager.resetSensorData();
-            this.view.resetCenter();
+            this.view.resetCenter(0);
             return;
         }
         if (!accelManager.isSupported()) {
@@ -147,11 +147,11 @@ public class FishEyeView extends Activity implements AccelerometerManager.Accele
         offsetLayout.setVisibility(View.INVISIBLE);
         accelButton.setBackgroundResource(R.drawable.selector_button_red);
         touchButton.setBackgroundResource(R.drawable.selector_button_dark);
-        this.view.resetCenter();
+        this.view.resetCenter(0);
         accelManager.startListening(this);
     }
 
-    public void startTouch (View view) {
+    public void startTouch(View view) {
         if (!accelManager.isListening())
             return;
         if (accelManager.isSupported() && accelManager.isListening())
@@ -160,15 +160,24 @@ public class FishEyeView extends Activity implements AccelerometerManager.Accele
         touchButton.setBackgroundResource(R.drawable.selector_button_red);
         offsetLayout.setVisibility(View.VISIBLE);
 
-        this.view.resetCenter();
+        this.view.resetCenter(touchOffset?2:1);
     }
 
-    private int getStatusBarHeight () {
+    private int getStatusBarHeight() {
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             result = getResources().getDimensionPixelSize(resourceId);
         }
+        return result;
+    }
+
+    private int getActionBarHeight() {
+        int result;
+        final TypedArray styledAttributes = this.getTheme().obtainStyledAttributes(
+                new int[]{android.R.attr.actionBarSize});
+        result = (int) styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
         return result;
     }
 }
